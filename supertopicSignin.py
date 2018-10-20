@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import configparser
+
+import os
 from selenium import webdriver
 import time
 
@@ -14,10 +17,17 @@ elem_add = driver.find_element_by_class_name('m-add-box').click()
 time.sleep(2)
 ele_login = driver.find_element_by_link_text('登录').click()
 time.sleep(2)
-# 账号填充输入
+
 driver.switch_to.default_content()
-elem_user = driver.find_element_by_id('loginName').send_keys('aa@qq.com')
-elem_password = driver.find_element_by_id('loginPassword').send_keys('aa')
+#将账号密码输入到config文件中，提交代码至GitHub时忽略config文件
+config = configparser.ConfigParser()
+config.read("F:\\个人文档\\code\\Kumapocket\\config\\config.ini")
+username = config.get("userName", "userName")
+password = config.get("passWord", "PassWord")
+
+# 输入账号密码
+elem_user = driver.find_element_by_id('loginName').send_keys(username)
+elem_password = driver.find_element_by_id('loginPassword').send_keys(password)
 
 #点击登录
 click_submit = driver.find_element_by_id('loginAction')
