@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import configparser
-
+# python3.6环境
+from urllib import request
+from http import cookiejar
 import os
 from selenium import webdriver
 import time
@@ -43,3 +45,17 @@ time.sleep(5)
 #点击签到
 elem_addd = driver.find_element_by_xpath('//*[@id="app"]/div[1]/div[2]/div[2]/div/div/div/h4').click()
 time.sleep(2)
+
+if __name__ == '__main__':
+    # 声明一个CookieJar对象实例来保存cookie
+    cookie = cookiejar.CookieJar()
+    # 利用urllib.request库的HTTPCookieProcessor对象来创建cookie处理器,也就CookieHandler
+    handler = request.HTTPCookieProcessor(cookie)
+    # 通过CookieHandler创建opener
+    opener = request.build_opener(handler)
+    # 此处的open方法打开网页
+    response = opener.open('http://www.baidu.com')
+    # 打印cookie信息
+    for item in cookie:
+        print('Name = %s' % item.name)
+        print('Value = %s' % item.value)
